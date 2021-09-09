@@ -1,6 +1,7 @@
 "use strict";
 
 const color = document.querySelector("#selected_color");
+let colors;
 
 window.addEventListener("DOMContentLoaded", getColor);
 
@@ -19,7 +20,7 @@ function selectedColor(event) {
 
 function convertHexToRgb(hex) {
   console.log(hex);
-  rgb = {
+  const rgb = {
     r: parseInt(hex.substring(1, 3), 16),
     g: parseInt(hex.substring(3, 5), 16),
     b: parseInt(hex.substring(5, 7), 16),
@@ -73,11 +74,64 @@ function convertRgbToHsl(r, g, b) {
 }
 
 function getHarmony(h, s, l) {
-  if (harmony.value === "Analogous") {
-  } else if (harmony.value === "Monochromatic") {
-  } else if (harmony.value === "Traid") {
-  } else if (harmony.value === "Complementary") {
-  } else if (harmony.value === "Compound") {
-  } else if (harmony.value === "Shades") {
+  if (harmony.value === "analogous") {
+    chooseAnalogous(h, s, l);
+  } else if (harmony.value === "monochromatic") {
+    chooseMonochromatic(s, l);
+  } else if (harmony.value === "traid") {
+    chooseTraid(h, l);
+  } else if (harmony.value === "complementary") {
+    chooseComplementary(h, s, l);
+  } else if (harmony.value === "compound") {
+    chooseCompound(); // ?????
+  } else if (harmony.value === "shades") {
+    chooseShades(l);
+  }
+}
+
+// HARMONY FUNCTIONS
+function chooseAnalogous(hsl) {
+  console.log("test");
+  const colorOne = {
+    h: hsl.h,
+    s: hsl.s,
+    l: hsl.l,
+  };
+
+  const colorTwo = {
+    h: (hsl.h += 10),
+    s: hsl.s,
+    l: hsl.l,
+  };
+  const colorThree = {
+    h: (hsl.h += 20),
+    s: hsl.s,
+    l: hsl.l,
+  };
+  const colorFour = {
+    h: (hsl.h -= 10),
+    s: hsl.s,
+    l: hsl.l,
+  };
+  const colorFive = {
+    h: (hsl.h -= 20),
+    s: hsl.s,
+    l: hsl.l,
+  };
+
+  colors = [colorOne, colorTwo, colorThree, colorFour, colorFive];
+  calculatenAlogousH(colors);
+
+  // return [colorOne, colorTwo, colorThree, colorFour, colorFive]
+}
+
+function calculatenAlogousH(colors) {
+  console.log(colors[0].h);
+  if (colors[0].h > 360) {
+    colors[0].h -= 360;
+    console.log("360" + colors[0].h);
+  } else if (colors[0].h < 0) {
+    colors[0].h += 360;
+    console.log("0" + colors[0].h);
   }
 }

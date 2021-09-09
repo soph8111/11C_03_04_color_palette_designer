@@ -2,6 +2,7 @@
 
 const color = document.querySelector("#selected_color");
 let colors;
+let rgb;
 
 window.addEventListener("DOMContentLoaded", getColor);
 
@@ -16,10 +17,28 @@ function selectedColor(event) {
   getHarmony(hslStr);
 }
 
+function calculateAllColors(colors) {
+  console.log(colors);
+  colors.forEach((color) => {
+    color.rgb = convertHslToRgb(color.h, color.s, color.l);
+  });
+  showRgb(colors);
+}
+
+// SHOW FUNCTIONS
+
+function showRgb(object) {
+  console.log(object);
+  document.querySelector("#color_one .RGB").textContent = `RGB: ${object[0].rgb.r}, ${object[0].rgb.g}, ${object[0].rgb.b}`;
+  document.querySelector("#color_two .RGB").textContent = `RGB: ${object[1].rgb.r}, ${object[1].rgb.g}, ${object[1].rgb.b}`;
+  document.querySelector("#color_three .RGB").textContent = `RGB: ${object[2].rgb.r}, ${object[2].rgb.g}, ${object[2].rgb.b}`;
+  document.querySelector("#color_four .RGB").textContent = `RGB: ${object[3].rgb.r}, ${object[3].rgb.g}, ${object[3].rgb.b}`;
+  document.querySelector("#color_five .RGB").textContent = `RGB: ${object[4].rgb.r}, ${object[4].rgb.g}, ${object[4].rgb.b}`;
+}
+
 // CONVERTERS
 
 function convertHexToRgb(hex) {
-  console.log(hex);
   const rgb = {
     r: parseInt(hex.substring(1, 3), 16),
     g: parseInt(hex.substring(3, 5), 16),
@@ -68,8 +87,6 @@ function convertRgbToHsl(r, g, b) {
   s = Math.round(s);
   l = Math.round(l);
 
-  console.log("hsl(%f,%f%,%f%)", h, s, l); // just for testing
-
   return { h, s, l };
 }
 
@@ -89,9 +106,51 @@ function getHarmony(h, s, l) {
   }
 }
 
+function convertHslToRgb(h, s, l) {
+  h = h;
+  s = s / 100;
+  l = l / 100;
+
+  let c = (1 - Math.abs(2 * l - 1)) * s,
+    x = c * (1 - Math.abs(((h / 60) % 2) - 1)),
+    m = l - c / 2,
+    r = 0,
+    g = 0,
+    b = 0;
+  if (0 <= h && h < 60) {
+    r = c;
+    g = x;
+    b = 0;
+  } else if (60 <= h && h < 120) {
+    r = x;
+    g = c;
+    b = 0;
+  } else if (120 <= h && h < 180) {
+    r = 0;
+    g = c;
+    b = x;
+  } else if (180 <= h && h < 240) {
+    r = 0;
+    g = x;
+    b = c;
+  } else if (240 <= h && h < 300) {
+    r = x;
+    g = 0;
+    b = c;
+  } else if (300 <= h && h < 360) {
+    r = c;
+    g = 0;
+    b = x;
+  }
+  r = Math.round((r + m) * 255);
+  g = Math.round((g + m) * 255);
+  b = Math.round((b + m) * 255);
+
+  return { r, g, b };
+}
+
 // HARMONY FUNCTIONS
 function chooseAnalogous(hsl) {
-  console.log("test");
   const colorOne = {
     h: hsl.h,
     s: hsl.s,
@@ -120,18 +179,21 @@ function chooseAnalogous(hsl) {
   };
 
   colors = [colorOne, colorTwo, colorThree, colorFour, colorFive];
-  calculatenAlogousH(colors);
+  const hCalculated = calculateAlogousH(colors);
+
+  calculateAllColors(hCalculated);
 
   // return [colorOne, colorTwo, colorThree, colorFour, colorFive]
 }
 
-function calculatenAlogousH(colors) {
-  console.log(colors[0].h);
-  if (colors[0].h > 360) {
-    colors[0].h -= 360;
-    console.log("360" + colors[0].h);
-  } else if (colors[0].h < 0) {
-    colors[0].h += 360;
-    console.log("0" + colors[0].h);
+function calculateAlogousH(colorsArray) {
+  if (colorsArray[0].h > 360) {
+    colorsArray[0].h -= 360;
+  } else if (colorsArray[0].h < 0) {
+    colorsArray[0].h += 360;
   }
+
+  // lige nu arbejdes der kun med colorsArray[0]... ret dette til
+
+  return colorsArray;
 }

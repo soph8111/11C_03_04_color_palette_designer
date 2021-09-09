@@ -8,13 +8,59 @@
     <title>11C.03.04 - Color Palette Designer</title>
 </head>
 <body>
-
     <section>
-        <div id="color_box"></div>
-        <p id="HEX">HEX:</p>
-        <p id="RGB">RGB:</p>
-        <p id="HSL">HSL:</p>
-        <p>Select color here</p><input id="selected_color" type="color">
+    <div id="buttons">
+        <p>Select color here</p>
+        <input id="selected_color" type="color">
+
+        <p>Select harmony here</p>
+        <select id="harmony">
+            <option value="analogous">Analogous</option>
+            <option value="monochromatic">Monochromatic</option>
+            <option value="Triad">Traid</option>
+            <option value="complementary">Complementary</option>
+            <option value="compound">Compound</option>
+            <option value="shades">Shades</option>
+          </select>
+    </div>
+    <div id="all_colors">
+        <div id="color_one">
+            <div class="color_box"></div>
+            <p class="HEX">HEX:</p>
+            <p class="RGB">RGB:</p>
+            <p class="HSL">HSL:</p>
+        </div>
+        <div id="color_two">
+            <div class="color_box"></div>
+            <p class="HEX">HEX:</p>
+            <p class="RGB">RGB:</p>
+            <p class="HSL">HSL:</p>
+        </div>
+        <div id="color_three">
+            <div class="color_box"></div>
+            <p class="HEX">HEX:</p>
+            <p class="RGB">RGB:</p>
+            <p class="HSL">HSL:</p>
+        </div>
+        <div id="color_four">
+            <div class="color_box"></div>
+            <p class="HEX">HEX:</p>
+            <p class="RGB">RGB:</p>
+            <p class="HSL">HSL:</p>
+        </div>
+        <div id="color_five">
+            <div class="color_box"></div>
+            <p class="HEX">HEX:</p>
+            <p class="RGB">RGB:</p>
+            <p class="HSL">HSL:</p>
+        </div>
+        <div id="color_six">
+            <div class="color_box"></div>
+            <p class="HEX">HEX:</p>
+            <p class="RGB">RGB:</p>
+            <p class="HSL">HSL:</p>
+        </div>
+    </div>
     </section>
    
     <script src="script.js"></script>

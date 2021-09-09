@@ -1,0 +1,16 @@
+p {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#all_colors {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+}
+
+.color_box {
+  width: 120px;
+  height: 120px;
+  border: 1px solid black;
+  border-radius: 10px;
+}

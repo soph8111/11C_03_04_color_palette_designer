@@ -22,10 +22,31 @@ function calculateAllColors(colors) {
   colors.forEach((color) => {
     color.rgb = convertHslToRgb(color.h, color.s, color.l);
   });
+  colors.forEach((color) => {
+    color.hex = convertRgbToHex(color.rgb);
+  });
+  showBox(colors);
+  showHsl(colors);
   showRgb(colors);
+  showHex(colors);
 }
 
 // SHOW FUNCTIONS
+function showBox(object) {
+  document.querySelector("#color_one .color_box").style.background = object[0].hex;
+  document.querySelector("#color_two .color_box").style.background = object[1].hex;
+  document.querySelector("#color_three .color_box").style.background = object[2].hex;
+  document.querySelector("#color_four .color_box").style.background = object[3].hex;
+  document.querySelector("#color_five .color_box").style.background = object[4].hex;
+}
+
+function showHsl(object) {
+  document.querySelector("#color_one .HSL").textContent = `HSL: ${object[0].h} ${object[0].s}% ${object[0].l}%`;
+  document.querySelector("#color_two .HSL").textContent = `HSL: ${object[1].h} ${object[1].s}% ${object[1].l}%`;
+  document.querySelector("#color_three .HSL").textContent = `HSL: ${object[2].h} ${object[2].s}% ${object[2].l}%`;
+  document.querySelector("#color_four .HSL").textContent = `HSL: ${object[3].h} ${object[3].s}% ${object[3].l}%`;
+  document.querySelector("#color_five .HSL").textContent = `HSL: ${object[4].h} ${object[4].s}% ${object[4].l}%`;
+}
 
 function showRgb(object) {
   console.log(object);
@@ -34,6 +55,15 @@ function showRgb(object) {
   document.querySelector("#color_three .RGB").textContent = `RGB: ${object[2].rgb.r}, ${object[2].rgb.g}, ${object[2].rgb.b}`;
   document.querySelector("#color_four .RGB").textContent = `RGB: ${object[3].rgb.r}, ${object[3].rgb.g}, ${object[3].rgb.b}`;
   document.querySelector("#color_five .RGB").textContent = `RGB: ${object[4].rgb.r}, ${object[4].rgb.g}, ${object[4].rgb.b}`;
+}
+
+function showHex(object) {
+  console.log(object);
+  document.querySelector("#color_one .HEX").textContent = `HEX: ${object[0].hex}`;
+  document.querySelector("#color_two .HEX").textContent = `HEX: ${object[1].hex}`;
+  document.querySelector("#color_three .HEX").textContent = `HEX: ${object[2].hex}`;
+  document.querySelector("#color_four .HEX").textContent = `HEX: ${object[3].hex}`;
+  document.querySelector("#color_five .HEX").textContent = `HEX: ${object[4].hex}`;
 }
 
 // CONVERTERS
@@ -184,6 +214,19 @@ function chooseAnalogous(hsl) {
   calculateAllColors(hCalculated);
 
   // return [colorOne, colorTwo, colorThree, colorFour, colorFive]
+}
+
+function convertRgbToHex(rgb) {
+  let r = rgb.r.toString(16);
+  let g = rgb.g.toString(16);
+  let b = rgb.b.toString(16);
+  if (r.length == 1) r = "0" + r;
+  if (g.length == 1) g = "0" + g;
+  if (b.length == 1) b = "0" + b;
+
+  const hex = "#" + r + g + b;
+  console.log(hex);
+  return hex;
 }
 
 function calculateAlogousH(colorsArray) {

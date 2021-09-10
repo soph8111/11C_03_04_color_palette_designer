@@ -20,7 +20,7 @@ function selectedColor(event) {
 function calculateAllColors(colors) {
   console.log(colors);
   colors.forEach((color) => {
-    color.rgb = convertHslToRgb(color.h, color.s, color.l);
+    color.rgb = convertHslToRgb(color.hsl.h, color.hsl.s, color.hsl.l);
   });
   colors.forEach((color) => {
     color.hex = convertRgbToHex(color.rgb);
@@ -41,11 +41,11 @@ function showBox(object) {
 }
 
 function showHsl(object) {
-  document.querySelector("#color_one .HSL").textContent = `HSL: ${object[0].h} ${object[0].s}% ${object[0].l}%`;
-  document.querySelector("#color_two .HSL").textContent = `HSL: ${object[1].h} ${object[1].s}% ${object[1].l}%`;
-  document.querySelector("#color_three .HSL").textContent = `HSL: ${object[2].h} ${object[2].s}% ${object[2].l}%`;
-  document.querySelector("#color_four .HSL").textContent = `HSL: ${object[3].h} ${object[3].s}% ${object[3].l}%`;
-  document.querySelector("#color_five .HSL").textContent = `HSL: ${object[4].h} ${object[4].s}% ${object[4].l}%`;
+  document.querySelector("#color_one .HSL").textContent = `HSL: ${object[0].hsl.h} ${object[0].hsl.s}% ${object[0].hsl.l}%`;
+  document.querySelector("#color_two .HSL").textContent = `HSL: ${object[1].hsl.h} ${object[1].hsl.s}% ${object[1].hsl.l}%`;
+  document.querySelector("#color_three .HSL").textContent = `HSL: ${object[2].hsl.h} ${object[2].hsl.s}% ${object[2].hsl.l}%`;
+  document.querySelector("#color_four .HSL").textContent = `HSL: ${object[3].hsl.h} ${object[3].hsl.s}% ${object[3].hsl.l}%`;
+  document.querySelector("#color_five .HSL").textContent = `HSL: ${object[4].hsl.h} ${object[4].hsl.s}% ${object[4].hsl.l}%`;
 }
 
 function showRgb(object) {
@@ -117,22 +117,24 @@ function convertRgbToHsl(r, g, b) {
   s = Math.round(s);
   l = Math.round(l);
 
-  return { h, s, l };
+  const hsl = { h, s, l };
+
+  return hsl; // make this to an object ? hsl = {h,s,l} and then return hsl.
 }
 
-function getHarmony(h, s, l) {
+function getHarmony(hsl) {
   if (harmony.value === "analogous") {
-    chooseAnalogous(h, s, l);
+    chooseAnalogous(hsl);
   } else if (harmony.value === "monochromatic") {
-    chooseMonochromatic(s, l);
+    chooseMonochromatic(hsl);
   } else if (harmony.value === "traid") {
-    chooseTraid(h, l);
+    chooseTraid(hsl);
   } else if (harmony.value === "complementary") {
-    chooseComplementary(h, s, l);
+    chooseComplementary(hsl);
   } else if (harmony.value === "compound") {
-    chooseCompound(); // ?????
+    chooseCompound(hsl); // ?????
   } else if (harmony.value === "shades") {
-    chooseShades(l);
+    chooseShades(hsl);
   }
 }
 
@@ -182,30 +184,21 @@ function convertHslToRgb(h, s, l) {
 // HARMONY FUNCTIONS
 function chooseAnalogous(hsl) {
   const colorOne = {
-    h: hsl.h,
-    s: hsl.s,
-    l: hsl.l,
+    hsl: { h: hsl.h, s: hsl.s, l: hsl.l },
   };
 
   const colorTwo = {
-    h: (hsl.h += 10),
-    s: hsl.s,
-    l: hsl.l,
+    hsl: { h: (hsl.h += 5), s: hsl.s, l: hsl.l },
   };
+
   const colorThree = {
-    h: (hsl.h += 20),
-    s: hsl.s,
-    l: hsl.l,
+    hsl: { h: (hsl.h += 10), s: hsl.s, l: hsl.l },
   };
   const colorFour = {
-    h: (hsl.h -= 10),
-    s: hsl.s,
-    l: hsl.l,
+    hsl: { h: (hsl.h += 15), s: hsl.s, l: hsl.l },
   };
   const colorFive = {
-    h: (hsl.h -= 20),
-    s: hsl.s,
-    l: hsl.l,
+    hsl: { h: (hsl.h += 20), s: hsl.s, l: hsl.l },
   };
 
   colors = [colorOne, colorTwo, colorThree, colorFour, colorFive];

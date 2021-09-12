@@ -18,7 +18,6 @@ function selectedColor(event) {
 }
 
 function calculateAllColors(colors) {
-  console.log(colors);
   colors.forEach((color) => {
     color.rgb = convertHslToRgb(color.hsl.h, color.hsl.s, color.hsl.l);
   });
@@ -65,7 +64,6 @@ function showHsl(object) {
 }
 
 function showRgb(object) {
-  console.log(object);
   document.querySelector("#color_one .RGB").textContent = `RGB: ${object[0].rgb.r}, ${object[0].rgb.g}, ${object[0].rgb.b}`;
   document.querySelector("#color_two .RGB").textContent = `RGB: ${object[1].rgb.r}, ${object[1].rgb.g}, ${object[1].rgb.b}`;
   document.querySelector("#color_three .RGB").textContent = `RGB: ${object[2].rgb.r}, ${object[2].rgb.g}, ${object[2].rgb.b}`;
@@ -74,7 +72,6 @@ function showRgb(object) {
 }
 
 function showHex(object) {
-  console.log(object);
   document.querySelector("#color_one .HEX").textContent = `HEX: ${object[0].hex}`;
   document.querySelector("#color_two .HEX").textContent = `HEX: ${object[1].hex}`;
   document.querySelector("#color_three .HEX").textContent = `HEX: ${object[2].hex}`;
@@ -190,7 +187,6 @@ function convertRgbToHex(rgb) {
   if (b.length == 1) b = "0" + b;
 
   const hex = "#" + r + g + b;
-  console.log(hex);
   return hex;
 }
 
@@ -357,7 +353,6 @@ function calculateOverOrUnder360(colorsArray) {
   }
 
   for (let i = 0; i < 5; i++) {
-    console.log("testttskskls");
     if (colorsArray[i].hsl.s > 100) {
       colorsArray[i].hsl.s = 100;
     } else if (colorsArray[i].hsl.s < 0) {

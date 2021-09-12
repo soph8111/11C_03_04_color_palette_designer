@@ -31,6 +31,22 @@ function calculateAllColors(colors) {
   showHex(colors);
 }
 
+function getHarmony(hsl) {
+  if (harmony.value === "analogous") {
+    chooseAnalogous(hsl);
+  } else if (harmony.value === "monochromatic") {
+    chooseMonochromatic(hsl);
+  } else if (harmony.value === "triad") {
+    chooseTraid(hsl);
+  } else if (harmony.value === "complementary") {
+    chooseComplementary(hsl);
+  } else if (harmony.value === "compound") {
+    chooseCompound(hsl);
+  } else if (harmony.value === "shades") {
+    chooseShades(hsl);
+  }
+}
+
 // SHOW FUNCTIONS
 function showBox(object) {
   document.querySelector("#color_one .color_box").style.background = object[0].hex;
@@ -122,22 +138,6 @@ function convertRgbToHsl(r, g, b) {
   return hsl; // make this to an object ? hsl = {h,s,l} and then return hsl.
 }
 
-function getHarmony(hsl) {
-  if (harmony.value === "analogous") {
-    chooseAnalogous(hsl);
-  } else if (harmony.value === "monochromatic") {
-    chooseMonochromatic(hsl);
-  } else if (harmony.value === "traid") {
-    chooseTraid(hsl);
-  } else if (harmony.value === "complementary") {
-    chooseComplementary(hsl);
-  } else if (harmony.value === "compound") {
-    chooseCompound(hsl); // ?????
-  } else if (harmony.value === "shades") {
-    chooseShades(hsl);
-  }
-}
-
 function convertHslToRgb(h, s, l) {
   h = h;
   s = s / 100;
@@ -181,34 +181,6 @@ function convertHslToRgb(h, s, l) {
   return { r, g, b };
 }
 
-// HARMONY FUNCTIONS
-function chooseAnalogous(hsl) {
-  const colorOne = {
-    hsl: { h: hsl.h, s: hsl.s, l: hsl.l },
-  };
-
-  const colorTwo = {
-    hsl: { h: (hsl.h += 5), s: hsl.s, l: hsl.l },
-  };
-
-  const colorThree = {
-    hsl: { h: (hsl.h += 10), s: hsl.s, l: hsl.l },
-  };
-  const colorFour = {
-    hsl: { h: (hsl.h += 15), s: hsl.s, l: hsl.l },
-  };
-  const colorFive = {
-    hsl: { h: (hsl.h += 20), s: hsl.s, l: hsl.l },
-  };
-
-  colors = [colorOne, colorTwo, colorThree, colorFour, colorFive];
-  const hCalculated = calculateAlogousH(colors);
-
-  calculateAllColors(hCalculated);
-
-  // return [colorOne, colorTwo, colorThree, colorFour, colorFive]
-}
-
 function convertRgbToHex(rgb) {
   let r = rgb.r.toString(16);
   let g = rgb.g.toString(16);
@@ -222,14 +194,184 @@ function convertRgbToHex(rgb) {
   return hex;
 }
 
-function calculateAlogousH(colorsArray) {
-  if (colorsArray[0].h > 360) {
-    colorsArray[0].h -= 360;
-  } else if (colorsArray[0].h < 0) {
-    colorsArray[0].h += 360;
+// HARMONY FUNCTIONS
+function chooseAnalogous(hsl) {
+  const colorOne = {
+    hsl: { h: hsl.h, s: hsl.s, l: hsl.l },
+  };
+
+  const colorTwo = {
+    hsl: { h: hsl.h + 15, s: hsl.s, l: hsl.l },
+  };
+
+  const colorThree = {
+    hsl: { h: hsl.h + 30, s: hsl.s, l: hsl.l },
+  };
+  const colorFour = {
+    hsl: { h: hsl.h + 45, s: hsl.s, l: hsl.l },
+  };
+  const colorFive = {
+    hsl: { h: hsl.h + 60, s: hsl.s, l: hsl.l },
+  };
+
+  colors = [colorOne, colorTwo, colorThree, colorFour, colorFive];
+  const underOrOver360 = calculateOverOrUnder360(colors);
+
+  calculateAllColors(underOrOver360);
+
+  // return [colorOne, colorTwo, colorThree, colorFour, colorFive]
+}
+
+function chooseMonochromatic(hsl) {
+  const colorOne = {
+    hsl: { h: hsl.h, s: hsl.s, l: hsl.l },
+  };
+
+  const colorTwo = {
+    hsl: { h: hsl.h, s: hsl.s + 15, l: hsl.l },
+  };
+
+  const colorThree = {
+    hsl: { h: hsl.h, s: hsl.s + 30, l: hsl.l },
+  };
+  const colorFour = {
+    hsl: { h: hsl.h, s: hsl.s, l: hsl.l + 15 },
+  };
+  const colorFive = {
+    hsl: { h: hsl.h, s: hsl.s, l: hsl.l + 30 },
+  };
+
+  colors = [colorOne, colorTwo, colorThree, colorFour, colorFive];
+  const underOrOver360 = calculateOverOrUnder360(colors);
+
+  calculateAllColors(underOrOver360);
+}
+
+function chooseTraid(hsl) {
+  const colorOne = {
+    hsl: { h: hsl.h, s: hsl.s, l: hsl.l },
+  };
+
+  const colorTwo = {
+    hsl: { h: hsl.h + 120, s: hsl.s, l: hsl.l },
+  };
+
+  const colorThree = {
+    hsl: { h: hsl.h + 120, s: hsl.s, l: hsl.l + 30 },
+  };
+  const colorFour = {
+    hsl: { h: hsl.h + 240, s: hsl.s, l: hsl.l },
+  };
+  const colorFive = {
+    hsl: { h: hsl.h + 240, s: hsl.s, l: hsl.l + 30 },
+  };
+
+  colors = [colorOne, colorTwo, colorThree, colorFour, colorFive];
+  const underOrOver360 = calculateOverOrUnder360(colors);
+
+  calculateAllColors(underOrOver360);
+}
+
+function chooseComplementary(hsl) {
+  const colorOne = {
+    hsl: { h: hsl.h, s: hsl.s, l: hsl.l },
+  };
+
+  const colorTwo = {
+    hsl: { h: hsl.h, s: hsl.s + 20, l: hsl.l },
+  };
+
+  const colorThree = {
+    hsl: { h: hsl.h, s: hsl.s + 20, l: hsl.l + 20 },
+  };
+  const colorFour = {
+    hsl: { h: hsl.h + 180, s: hsl.s, l: hsl.l },
+  };
+  const colorFive = {
+    hsl: { h: hsl.h + 180, s: hsl.s + 20, l: hsl.l + 10 },
+  };
+
+  colors = [colorOne, colorTwo, colorThree, colorFour, colorFive];
+  const underOrOver360 = calculateOverOrUnder360(colors);
+
+  calculateAllColors(underOrOver360);
+}
+
+function chooseCompound(hsl) {
+  const colorOne = {
+    hsl: { h: hsl.h, s: hsl.s, l: hsl.l },
+  };
+
+  const colorTwo = {
+    hsl: { h: hsl.h + 140, s: hsl.s + 20, l: hsl.l },
+  };
+
+  const colorThree = {
+    hsl: { h: hsl.h + 140, s: hsl.s + 20, l: hsl.l + 20 },
+  };
+  const colorFour = {
+    hsl: { h: hsl.h + 210, s: hsl.s, l: hsl.l },
+  };
+  const colorFive = {
+    hsl: { h: hsl.h + 210, s: hsl.s + 20, l: hsl.l + 20 },
+  };
+
+  colors = [colorOne, colorTwo, colorThree, colorFour, colorFive];
+  const underOrOver360 = calculateOverOrUnder360(colors);
+
+  calculateAllColors(underOrOver360);
+}
+
+function chooseShades(hsl) {
+  const colorOne = {
+    hsl: { h: hsl.h, s: hsl.s, l: hsl.l },
+  };
+
+  const colorTwo = {
+    hsl: { h: hsl.h, s: hsl.s + 10, l: hsl.l + 10 },
+  };
+
+  const colorThree = {
+    hsl: { h: hsl.h, s: hsl.s + 20, l: hsl.l + 20 },
+  };
+  const colorFour = {
+    hsl: { h: hsl.h, s: hsl.s - 10, l: hsl.l - 10 },
+  };
+  const colorFive = {
+    hsl: { h: hsl.h, s: hsl.s - 20, l: hsl.l - 20 },
+  };
+
+  colors = [colorOne, colorTwo, colorThree, colorFour, colorFive];
+  const underOrOver360 = calculateOverOrUnder360(colors);
+
+  calculateAllColors(underOrOver360);
+}
+
+function calculateOverOrUnder360(colorsArray) {
+  for (let i = 0; i < 5; i++) {
+    if (colorsArray[i].hsl.h > 360) {
+      colorsArray[i].hsl.h -= 360;
+    } else if (colorsArray[i].hsl.h < 0) {
+      colorsArray[i].hsl.h += 360;
+    }
   }
 
-  // lige nu arbejdes der kun med colorsArray[0]... ret dette til
+  for (let i = 0; i < 5; i++) {
+    console.log("testttskskls");
+    if (colorsArray[i].hsl.s > 100) {
+      colorsArray[i].hsl.s = 100;
+    } else if (colorsArray[i].hsl.s < 0) {
+      colorsArray[i].hsl.s = 0;
+    }
+  }
+
+  for (let i = 0; i < 5; i++) {
+    if (colorsArray[i].hsl.l > 100) {
+      colorsArray[i].hsl.l = 100;
+    } else if (colorsArray[i].hsl.l < 0) {
+      colorsArray[i].hsl.l = 0;
+    }
+  }
 
   return colorsArray;
 }
